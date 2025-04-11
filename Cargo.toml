@@ -1,0 +1,15 @@
+[package]
+name = "sigscan"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+libc = "0.2.171"
+nix = { version = "0.29.0", features = ["signal"] }
+owo-colors = { version = "4.2.0", features = ["supports-colors"] }
+procfs = "0.17.0"
+
+[profile.profile]
+inherits = "release"
+debug = true
+strip = false
