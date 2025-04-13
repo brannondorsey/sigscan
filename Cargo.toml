@@ -1,7 +1,15 @@
 [package]
 name = "sigscan"
 version = "0.1.0"
+description = "List POSIX signal information about all processes on a host using Linux procfs"
 edition = "2024"
+authors = ["Brannon Dorsey <brannon@brannondorsey.com>"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/brannondorsey/sigscan"
+keywords = ["linux", "process", "signal", "posix"]
+categories = ["command-line-utilities", "os::linux-apis"]
+exclude = [".github/*"]
 
 [dependencies]
 libc = "0.2.171"
