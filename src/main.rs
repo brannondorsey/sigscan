@@ -1,13 +1,16 @@
+mod cli;
+use cli::Cli;
 use libc::sigset_t;
 use nix::sys::signal::SigSet;
 use owo_colors::OwoColorize;
 use owo_colors::Stream::Stdout as OwoStdout;
+use procfs::process::Status;
 use std::mem::MaybeUninit;
 
 /// A macro that handles the signal string formatting with name, colors, and spacing.
 macro_rules! format_signal_str {
-    ($signals:expr, $name:expr, $color_fn:expr) => {
-        if $signals.is_empty() {
+    ($display:expr, $signals:expr, $name:expr, $color_fn:expr) => {
+        if !$display || $signals.is_empty() {
             "".to_string()
         } else {
             format!(
@@ -20,12 +23,14 @@ macro_rules! format_signal_str {
 }
 
 fn main() {
+    let cli = Cli::process_args_resetting_defaults_if_flags_were_provided();
+    println!("{:?}", &cli);
     let proc_statuses = {
         let mut vec = procfs::process::all_processes()
             .expect("Failed to get processes")
             .filter_map(Result::ok)
             .filter_map(|prc| prc.status().ok())
-            .filter(|status| status.shdpnd != 0 || status.sigblk != 0)
+            .filter(get_filter_status(&cli))
             .collect::<Vec<_>>();
         vec.sort_by_key(|status| status.pid);
         vec
@@ -42,15 +47,27 @@ fn main() {
         let ignored = sigset_to_strings(status.sigign).join(",");
         let caught = sigset_to_strings(status.sigcgt).join(",");
 
-        let ignored = format_signal_str!(ignored, "ignored", |t| t.bright_blue());
-        let caught = format_signal_str!(caught, "caught", |t| t.bright_magenta());
-        let blocked = format_signal_str!(blocked, "blocked", |t| t.bright_red());
-        let pending = format_signal_str!(pending, "pending", |t| t.bright_green());
+        let ignored = format_signal_str!(cli.ignored, ignored, "ignored", |t| t.bright_blue());
+        let caught = format_signal_str!(cli.caught, caught, "caught", |t| t.bright_magenta());
+        let blocked = format_signal_str!(cli.blocked, blocked, "blocked", |t| t.bright_red());
+        let pending = format_signal_str!(cli.pending, pending, "pending", |t| t.bright_green());
 
-        println!("{pid} {name} {ignored}{caught}{blocked}{pending}",);
+        let display_none =
+            ignored.is_empty() && caught.is_empty() && blocked.is_empty() && pending.is_empty();
+        if !display_none {
+            println!("{pid} {name} {ignored}{caught}{blocked}{pending}",);
+        }
     });
 }
 
+fn get_filter_status(cli: &Cli) -> impl FnMut(&Status) -> bool {
+    move |status: &Status| {
+        (cli.pending && status.shdpnd != 0)
+            || (cli.blocked && status.sigblk != 0)
+            || (cli.caught && status.sigcgt != 0)
+            || (cli.ignored && status.sigign != 0)
+    }
+}
 fn sigset_to_strings(sigset: u64) -> Vec<String> {
     let sigset = sigset_from_u64(sigset);
     let sigset = unsafe { SigSet::from_sigset_t_unchecked(sigset) };
