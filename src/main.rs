@@ -7,7 +7,8 @@ use owo_colors::Stream::Stdout as OwoStdout;
 use procfs::process::Status;
 use std::mem::MaybeUninit;
 
-/// A macro that handles the signal string formatting with name, colors, and spacing.
+/// A macro that handles the signal string formatting with name, colors, and
+/// spacing.
 macro_rules! format_signal_str {
     ($display:expr, $signals:expr, $name:expr, $color_fn:expr) => {
         if !$display || $signals.is_empty() {
@@ -93,7 +94,8 @@ fn sigset_to_strings(sigset: u64) -> Vec<String> {
         .collect()
 }
 
-// Warning: This only works on platforms where sigset_t starts with a u64[16] (true on Linux/glibc). Not portable or future-proof. Use with care.
+// Warning: This only works on platforms where sigset_t starts with a u64[16]
+// (true on Linux/glibc). Not portable or future-proof. Use with care.
 fn sigset_from_u64(mask: u64) -> sigset_t {
     let mut sigset = unsafe { MaybeUninit::<sigset_t>::zeroed().assume_init() };
     unsafe {
