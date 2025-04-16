@@ -1,7 +1,7 @@
 mod cli;
 use cli::Cli;
 use libc::sigset_t;
-use nix::sys::signal::SigSet;
+use nix::sys::signal::{SigSet, Signal};
 use owo_colors::OwoColorize;
 use owo_colors::Stream::Stdout as OwoStdout;
 use procfs::process::Status;
@@ -71,13 +71,17 @@ fn get_filter_status(cli: &Cli) -> impl FnMut(&Status) -> bool {
 fn sigset_to_strings(sigset: u64) -> Vec<String> {
     let sigset = sigset_from_u64(sigset);
     let sigset = unsafe { SigSet::from_sigset_t_unchecked(sigset) };
-    let mut sigset: Vec<String> = sigset
+    let mut sigset: Vec<(Signal, String)> = sigset
         .iter()
-        .map(|s| s.to_string().replace("SIG", ""))
+        .map(|s| (s, s.to_string().replace("SIG", "")))
         .collect();
-    sigset.sort();
+    // Sort by signal number lowest first because that's the order Linux will
+    // fire the handlers in when multiple signals transition out of the pending
+    // state.
+    sigset.sort_by_key(|(s, _)| *s);
     sigset
         .iter()
+        .map(|(_, s)| s)
         .enumerate()
         .map(|(i, s)| {
             if i % 2 == 0 {
