@@ -7,6 +7,9 @@ By default -c (--caught), -b (--blocked), and -p (--pending) are set.
 However, any options you specify will override and reset the defaults.
 
 Example: sigscan -cbp
+
+Note: This tool only supports classic POSIX signals, not real-time signals
+(e.g. SIGRTMIN and above).
 ";
 
 #[derive(Parser, Debug, Clone)]
