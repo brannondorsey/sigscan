@@ -1,18 +1,36 @@
 use clap::Parser;
 
-// TODO: Document
+const LONG_ABOUT: &str = "\
+List POSIX signal information about all processes.
+
+By default -c (--caught), -b (--blocked), and -p (--pending) are set.
+However, any options you specify will override and reset the defaults.
+
+Example: sigscan -cbp
+";
+
 #[derive(Parser, Debug, Clone)]
-#[command(author, version, about, long_about = None, next_line_help = true)]
+#[command(
+    author,
+    version,
+    about,
+    long_about = LONG_ABOUT,
+    next_line_help = true
+)]
 pub struct Cli {
+    /// Show processes that are ignoring signals
     #[arg(short, long, default_value_t = false)]
     pub ignored: bool,
 
+    /// Show processes that are catching signals
     #[arg(short, long, default_value_t = true)]
     pub caught: bool,
 
+    /// Show processes that are blocking signals
     #[arg(short, long, default_value_t = true)]
     pub blocked: bool,
 
+    /// Show processes that have pending signals
     #[arg(short, long, default_value_t = true)]
     pub pending: bool,
 }
