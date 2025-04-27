@@ -36,6 +36,11 @@ pub struct Cli {
     /// Show processes that have pending signals
     #[arg(short, long, default_value_t = true)]
     pub pending: bool,
+
+    /// Replace the binary name with the full value of
+    /// /proc/$PID/cmdline surrounded by quotes
+    #[arg(long, default_value_t = false)]
+    pub cmdline: bool,
 }
 
 impl Cli {
