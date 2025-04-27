@@ -4,6 +4,7 @@ use libc::sigset_t;
 use nix::sys::signal::{SigSet, Signal};
 use owo_colors::OwoColorize;
 use owo_colors::Stream::Stdout as OwoStdout;
+use procfs::process::Process;
 use procfs::process::Status;
 use std::mem::MaybeUninit;
 
@@ -40,7 +41,7 @@ fn main() {
     proc_statuses.iter().for_each(|status| {
         let pid = format!("{}", status.pid);
         let pid = pid.if_supports_color(OwoStdout, |t| t.bright_yellow());
-        let name = status.name.trim();
+        let name = get_name(status);
         let name = name.if_supports_color(OwoStdout, |t| t.bright_black());
 
         let pending = sigset_to_strings(status.shdpnd).join(",");
@@ -69,6 +70,31 @@ fn get_filter_status(cli: &Cli) -> impl FnMut(&Status) -> bool {
             || (cli.ignored && status.sigign != 0)
     }
 }
+
+/// Get the name of a process
+fn get_name(status: &Status) -> String {
+    let name = status.name.trim();
+    // The Linux kernel truncates process names to 15 characters, so if its hit
+    // that mark, we should infer the name from the command line instead.
+    if name.len() == 15 {
+        if let Ok(process) = Process::new(status.pid) {
+            process
+                .cmdline()
+                .unwrap_or(vec![name.to_string()])
+                .first()
+                .unwrap_or(&name.to_string())
+                .split("/")
+                .last()
+                .unwrap_or(name)
+                .to_string()
+        } else {
+            name.to_string()
+        }
+    } else {
+        name.to_string()
+    }
+}
+
 fn sigset_to_strings(sigset: u64) -> Vec<String> {
     let sigset = sigset_from_u64(sigset);
     let sigset = unsafe { SigSet::from_sigset_t_unchecked(sigset) };
