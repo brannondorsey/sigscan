@@ -26,7 +26,8 @@ macro_rules! format_signal_str {
 
 fn main() {
     let cli = Cli::process_args_resetting_defaults_if_flags_were_provided();
-    println!("{:?}", &cli);
+    set_color_override(&cli);
+
     let proc_statuses = {
         let mut vec = procfs::process::all_processes()
             .expect("Failed to get processes")
@@ -63,6 +64,16 @@ fn main() {
             println!("{pid} {name} {ignored}{caught}{blocked}{pending}",);
         }
     });
+}
+
+/// Falls back to auto-detection if no color override flag is set
+/// using owo-color's "supports-colors" feature (see Cargo.toml)
+fn set_color_override(cli: &Cli) {
+    if cli.color {
+        owo_colors::set_override(true);
+    } else if cli.no_color {
+        owo_colors::set_override(false);
+    }
 }
 
 fn get_filter_status(cli: &Cli) -> impl FnMut(&Status) -> bool {

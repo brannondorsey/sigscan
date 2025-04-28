@@ -1,10 +1,10 @@
-use clap::Parser;
+use clap::{ArgGroup, Parser};
 
 const LONG_ABOUT: &str = "\
 List POSIX signal information about all processes.
 
 By default -c (--caught), -b (--blocked), and -p (--pending) are set.
-However, any options you specify will override and reset the defaults.
+However, any of these options you specify will override and reset the defaults.
 
 Example: sigscan -cbp
 
@@ -18,7 +18,8 @@ Note: This tool only supports classic POSIX signals, not real-time signals
     version,
     about,
     long_about = LONG_ABOUT,
-    next_line_help = true
+    next_line_help = true,
+    group = ArgGroup::new("colors").multiple(false)
 )]
 pub struct Cli {
     /// Show processes that are ignoring signals
@@ -41,6 +42,14 @@ pub struct Cli {
     /// /proc/$PID/cmdline surrounded by quotes
     #[arg(long, default_value_t = false)]
     pub cmdline: bool,
+
+    /// Force enable colored output. Can also be set via FORCE_COLOR env var.
+    #[arg(long, default_value_t = false, group = "colors")]
+    pub color: bool,
+
+    /// Force disable colored output. Can also be set via NO_COLOR env var.
+    #[arg(long, default_value_t = false, group = "colors")]
+    pub no_color: bool,
 }
 
 impl Cli {
