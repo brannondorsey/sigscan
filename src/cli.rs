@@ -43,11 +43,11 @@ pub struct Cli {
     #[arg(long, default_value_t = false)]
     pub cmdline: bool,
 
-    /// Force enable colored output. Can also be set via FORCE_COLOR env var.
+    /// Force enable colored output (can also be set via FORCE_COLOR env var)
     #[arg(long, default_value_t = false, group = "colors")]
     pub color: bool,
 
-    /// Force disable colored output. Can also be set via NO_COLOR env var.
+    /// Force disable colored output (can also be set via NO_COLOR env var)
     #[arg(long, default_value_t = false, group = "colors")]
     pub no_color: bool,
 }
