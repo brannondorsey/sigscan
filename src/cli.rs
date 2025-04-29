@@ -1,7 +1,7 @@
 use clap::{ArgGroup, Parser};
 
 const LONG_ABOUT: &str = "\
-List POSIX signal information about all processes.
+List POSIX signal information for all processes.
 
 By default -c (--caught), -b (--blocked), and -p (--pending) are set.
 However, any of these options you specify will override and reset the defaults.
