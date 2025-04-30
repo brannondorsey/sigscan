@@ -10,6 +10,7 @@ repository = "https://github.com/brannondorsey/sigscan"
 keywords = ["linux", "process", "signal", "posix"]
 categories = ["command-line-utilities", "os::linux-apis"]
 exclude = [".github/*"]
+build = "build.rs"
 
 [dependencies]
 clap = { version = "4.5.36", features = ["derive", "wrap_help"] }
