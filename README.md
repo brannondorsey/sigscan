@@ -44,6 +44,9 @@ sigscan --blocked | cut -d" " -f1
 # Find potential daemon processes (catching SIGHUP)
 sigscan --caught | grep HUP | cut -d" " -f2
 
+# Get the full command line of processes that are catching TERM
+sigscan --caught | grep TERM | cut -d" " -f1 | xargs ps -o pid,cmd
+
 # Find processes that might be zombies (blocking SIGCHLD)
 sigscan --blocked | grep CHLD | awk '{print $1}' | xargs ps -o pid,ppid,state,cmd
 
