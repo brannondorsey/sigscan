@@ -10,6 +10,13 @@ List POSIX signal information for all processes.
 * Blazingly fast (~95% of time spent in kernel space)
 * Uses colors if output is detected as a terminal that supports them (or forcibly with `--(no-)colors`).
 
+<!--
+WARNING:
+        THE "\#\# Examples" SECTION IS USED TO GENERATE THE EXAMPLE CONTENT
+        DISPLAYED WHEN INVOKING `sigscan --examples`. ALL CONTENTENT AFTER
+        THIS SECTION BUT BEFORE THE NEXT ## HEADER WILL BE AUTOMATICALLY
+        INCLUDED IN THE `sigscan` BINARY.
+-->
 ## Examples
 
 ### Basic usage
@@ -26,8 +33,6 @@ sigscan --caught --blocked --pending --ignored
 
 # The quivalent command using short argument notation
 sigscan -cbpi
-
-# You get the idea...
 ```
 
 ### Recipes
@@ -55,6 +60,10 @@ watch --color -n 0.1 "sigscan --pending --color"
 ```
 
 ## Usage
+<!--
+/WARNING:
+        END OF WARNING (SEE ABOVE)
+-->
 
 ```txt
 $ sigscan --help

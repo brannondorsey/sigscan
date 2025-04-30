@@ -8,6 +8,9 @@ use procfs::process::Process;
 use procfs::process::Status;
 use std::mem::MaybeUninit;
 
+// Include the examples content generated at build time
+include!(concat!(env!("OUT_DIR"), "/examples_content.rs"));
+
 /// A macro that handles the signal string formatting with name, colors, and
 /// spacing.
 macro_rules! format_signal_str {
@@ -26,6 +29,13 @@ macro_rules! format_signal_str {
 
 fn main() {
     let cli = Cli::process_args_resetting_defaults_if_flags_were_provided();
+
+    // If --examples flag is provided, display the examples and exit
+    if cli.examples {
+        println!("{}", EXAMPLES_CONTENT);
+        return;
+    }
+
     set_color_override(&cli);
 
     let proc_statuses = {

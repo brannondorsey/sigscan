@@ -50,6 +50,10 @@ pub struct Cli {
     /// Force disable colored output (can also be set via NO_COLOR env var)
     #[arg(long, default_value_t = false, group = "colors")]
     pub no_color: bool,
+
+    /// Print the examples section from the README
+    #[arg(long, default_value_t = false)]
+    pub examples: bool,
 }
 
 impl Cli {
