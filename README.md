@@ -7,7 +7,7 @@ List POSIX signal information for all processes.
 ## Features
 
 * Easy to use (just `sigscan`)
-* Blazingly fast (with over 90% of time spent in kernel space)
+* Blazingly fast (~95% of time spent in kernel space)
 * Uses colors if output is detected as a terminal that supports them (or forcibly with `--(no-)colors`).
 
 ## Examples
