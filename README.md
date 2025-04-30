@@ -10,6 +10,11 @@ List POSIX signal information for all processes.
 * Blazingly fast (~95% of time spent in kernel space)
 * Uses colors if output is detected as a terminal that supports them (or forcibly with `--(no-)colors`).
 
+## Limitations
+
+* Only classic POSIX signals are supported, no real-time signals.
+* Relies on `/proc` and therefore only works on Linux.
+
 <!--
 WARNING:
         THE "\#\# Examples" SECTION IS USED TO GENERATE THE EXAMPLE CONTENT
@@ -95,6 +100,15 @@ Options:
       --cmdline
           Replace the binary name with the full value of /proc/$PID/cmdline surrounded by quotes
 
+      --color
+          Force enable colored output (can also be set via FORCE_COLOR env var)
+
+      --no-color
+          Force disable colored output (can also be set via NO_COLOR env var)
+
+      --examples
+          Print the examples section from the README
+
   -h, --help
           Print help (see a summary with '-h')
 
@@ -102,7 +116,11 @@ Options:
           Print version
 ```
 
-## Limitations
+## License
 
-* Only classic POSIX signals are supported, no real-time signals.
-* Relies on `/proc` and therefore only works on Linux.
+`sigscan` is dual-licensed under either of:
+
+* [MIT license](https://opensource.org/license/mit)
+* [Apache License, Version 2.0](https://opensource.org/license/apache-2-0)
+
+at your option.
