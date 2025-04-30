@@ -90,19 +90,15 @@ fn get_name(status: &Status) -> String {
     // The Linux kernel truncates process names to 15 characters, so if its hit
     // that mark, we should infer the name from the command line instead.
     if name.len() == 15 {
-        if let Ok(process) = Process::new(status.pid) {
-            process
-                .cmdline()
-                .unwrap_or(vec![name.to_string()])
-                .first()
-                .unwrap_or(&name.to_string())
-                .split("/")
-                .last()
-                .unwrap_or(name)
-                .to_string()
-        } else {
-            name.to_string()
-        }
+        Process::new(status.pid)
+            .ok()
+            .and_then(|process| process.cmdline().ok())
+            .and_then(|cmdline| {
+                cmdline
+                    .first()
+                    .map(|cmd| cmd.rsplit('/').next().unwrap_or(cmd).to_string())
+            })
+            .unwrap_or_else(|| name.to_string())
     } else {
         name.to_string()
     }
