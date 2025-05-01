@@ -1,5 +1,5 @@
 [package]
-name = "sig-scan"
+name = "signal-scan"
 version = "0.1.0"
 description = "List POSIX signal information about all processes on a host using Linux procfs"
 edition = "2024"
