@@ -1,5 +1,5 @@
 [package]
-name = "sigscan"
+name = "signal-scan"
 version = "0.1.0"
 description = "List POSIX signal information about all processes on a host using Linux procfs"
 edition = "2024"
@@ -12,6 +12,11 @@ categories = ["command-line-utilities", "os::linux-apis"]
 exclude = [".github/*"]
 build = "build.rs"
 
+# The binary is named sigscan even if the crate is sig-scan
+[[bin]]
+name = "sigscan"
+path = "src/main.rs"
+
 [dependencies]
 clap = { version = "4.5.36", features = ["derive", "wrap_help"] }
 libc = "0.2.171"
@@ -19,7 +24,12 @@ nix = { version = "0.29.0", features = ["signal"] }
 owo-colors = { version = "4.2.0", features = ["supports-colors"] }
 procfs = "0.17.0"
 
+[profile.release]
+codegen-units = 1
+lto = true
+strip = "debuginfo"
+
 [profile.profile]
 inherits = "release"
 debug = true
-strip = false
+strip = "none"

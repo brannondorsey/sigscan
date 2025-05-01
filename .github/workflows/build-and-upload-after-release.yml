@@ -1,0 +1,63 @@
+name: Build and Upload After Release
+
+permissions:
+  contents: write
+
+on:
+  release:
+    types: [published]
+
+env:
+  CARGO_INCREMENTAL: 0
+  CARGO_NET_GIT_FETCH_WITH_CLI: true
+  CARGO_NET_RETRY: 10
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+  RUSTFLAGS: -D warnings
+  RUSTUP_MAX_RETRIES: 10
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  upload-assets:
+    name: ${{ matrix.platform.target }}
+    if: github.repository_owner == 'brannondorsey' && startsWith(github.event.release.name, 'v')
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform:
+          - target: x86_64-unknown-linux-gnu
+          - target: x86_64-unknown-linux-musl
+          - target: aarch64-unknown-linux-gnu
+          - target: aarch64-unknown-linux-musl
+          - target: riscv64gc-unknown-linux-gnu
+          - target: riscv64gc-unknown-linux-musl
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@9d47c6ad4b02e050fd481d890b2ea34778fd09d6 #v2
+
+      - uses: taiki-e/setup-cross-toolchain-action@0123528f956f923e7a476f4cc04882bc005e7c89 #v1
+        with:
+          target: ${{ matrix.platform.target }}
+        if: (!contains(matrix.platform.target, '-musl'))
+      
+      - uses: taiki-e/install-action@33734a118689b0b418824fb78ea2bf18e970b43b #v2
+        with:
+          tool: cross
+        if: contains(matrix.platform.target, '-musl')
+
+      - uses: taiki-e/upload-rust-binary-action@31389c348ad0130069bed8448bf507fe8617f67f # v1
+        with:
+          bin: sigscan
+          target: ${{ matrix.platform.target }}
+          tar: all
+          token: ${{ secrets.GITHUB_TOKEN }}
