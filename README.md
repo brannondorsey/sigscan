@@ -15,6 +15,40 @@ List POSIX signal information for all processes.
 * Only classic POSIX signals are supported, no real-time signals.
 * Relies on `/proc` and therefore only works on Linux.
 
+## Installation
+
+`sigscan` is available as a pre-compiled binaries or from source.
+
+### Download Binaries
+
+```bash
+# Pick a download target
+ARCH="x86_64" # or aarch64, riscv64gc
+LIBC=gnu # or musl
+TAG="latest"
+
+# Download and install it
+curl -L "https://github.com/brannondorsey/sigscan/releases/download/${TAG}/sigscan-${ARCH}-unknown-linux-${LIBC}.tar.gz" \
+    | sudo tar xz -C /usr/local/bin/ \
+    && sudo chmod +x /usr/local/bin/sigscan
+
+# Verify installation
+sigscan
+```
+
+### From Source
+
+```bash
+# Install rustup, if you don't already have it
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Install sigscan
+cargo install signal-scan
+
+# Verify installation
+sigscan
+```
+
 <!--
 WARNING:
         THE "\#\# Examples" SECTION IS USED TO GENERATE THE EXAMPLE CONTENT
@@ -124,3 +158,9 @@ Options:
 * [Apache License, Version 2.0](https://opensource.org/license/apache-2-0)
 
 at your option.
+
+### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in the work by you shall be dual licensed as above, without any
+additional terms or conditions.
