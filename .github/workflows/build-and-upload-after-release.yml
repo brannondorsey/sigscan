@@ -33,7 +33,7 @@ jobs:
           - target: aarch64-unknown-linux-gnu
           - target: aarch64-unknown-linux-musl
           - target: riscv64gc-unknown-linux-gnu
-          - target: riscv64gc-unknown-linux-musl
+          # NOTE: (4/25) Cross doesn't provide a docker image for riscv musl
     timeout-minutes: 60
     steps:
       - name: Checkout
