@@ -25,10 +25,10 @@ List POSIX signal information for all processes.
 # Pick a download target
 ARCH="x86_64" # or aarch64, riscv64gc
 LIBC=gnu # or musl
-TAG="latest"
+LATEST_VERSION=$(curl -s https://raw.githubusercontent.com/brannondorsey/sigscan/refs/heads/main/Cargo.toml | grep -Po '^version = "\K[^"]*')
 
 # Download and install it
-curl -L "https://github.com/brannondorsey/sigscan/releases/download/${TAG}/sigscan-${ARCH}-unknown-linux-${LIBC}.tar.gz" \
+curl -L "https://github.com/brannondorsey/sigscan/releases/download/v${LATEST_VERSION}/sigscan-${ARCH}-unknown-linux-${LIBC}.tar.gz" \
     | sudo tar xz -C /usr/local/bin/ \
     && sudo chmod +x /usr/local/bin/sigscan
 
