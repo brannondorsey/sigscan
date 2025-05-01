@@ -17,9 +17,9 @@ List POSIX signal information for all processes.
 
 ## Installation
 
-`sigscan` is available as a pre-compiled binaries or from source.
+`sigscan` is available for downloads as pre-compiled binaries or you can build it from source.
 
-### Download Binaries
+### Download Released Binaries
 
 ```bash
 # Pick a download target
@@ -43,7 +43,7 @@ sigscan
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Install sigscan
-cargo install signal-scan
+cargo install --path signal-scan
 
 # Verify installation
 sigscan
