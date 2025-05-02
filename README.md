@@ -21,12 +21,14 @@ List POSIX signal information for all processes.
 
 ### Download Released Binaries
 
+You can find binaries on the [releases page](https://github.com/brannondorsey/sigscan/releases) or tweak + run the code below in your shell to install it to your system.
+
 ```bash
 # Pick a download target
 ARCH="x86_64" # or aarch64, riscv64gc
 LIBC=gnu # or musl
-LATEST_VERSION=$(curl -s https://raw.githubusercontent.com/brannondorsey/sigscan/refs/heads/main/Cargo.toml | grep -Po '^version = "\K[^"]*')
 INSTALL_DIR="/usr/local/bin/"
+LATEST_VERSION=$(curl -s https://raw.githubusercontent.com/brannondorsey/sigscan/refs/heads/main/Cargo.toml | grep -Po '^version = "\K[^"]*')
 
 # Download and install it
 curl -L "https://github.com/brannondorsey/sigscan/releases/download/v${LATEST_VERSION}/sigscan-${ARCH}-unknown-linux-${LIBC}.tar.gz" \
