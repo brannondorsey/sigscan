@@ -6,6 +6,7 @@ use owo_colors::OwoColorize;
 use owo_colors::Stream::Stdout as OwoStdout;
 use procfs::process::Process;
 use procfs::process::Status;
+use std::io::{self, Write};
 use std::mem::MaybeUninit;
 
 // Include the examples content generated at build time
@@ -32,7 +33,8 @@ fn main() {
 
     // If --examples flag is provided, display the examples and exit
     if cli.examples {
-        println!("{}", EXAMPLES_CONTENT);
+        // Prevent panics on pipe errors
+        let _ = writeln!(io::stdout(), "{}", EXAMPLES_CONTENT);
         return;
     }
 
@@ -69,7 +71,10 @@ fn main() {
         let display_none =
             ignored.is_empty() && caught.is_empty() && blocked.is_empty() && pending.is_empty();
         if !display_none {
-            println!("{pid} {name} {ignored}{caught}{blocked}{pending}",);
+            let _ = writeln!(
+                io::stdout(),
+                "{pid} {name} {ignored}{caught}{blocked}{pending}"
+            );
         }
     });
 }
