@@ -82,8 +82,11 @@ sigscan --all
 `sigscan` subscribes to the Unix philosophy of doing one thing and doing it well. It can be combined with other tools to answer more complex questions.
 
 ```bash
-# Paginate out 
+# Paginate output
 sigscan --color | less
+
+# Show all signal info pertaining to a certain process
+sigscan -cpbi --color | grep firefox
 
 # Get PIDs of processes that are blocking any type of signal
 sigscan --blocked | cut -d" " -f1
