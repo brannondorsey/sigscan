@@ -8,6 +8,8 @@ However, any of these options you specify will override and reset the defaults.
 
 Example: sigscan -cbp
 
+You can also use --all (-a) to show all signal types at once (equivalent to -cbpi).
+
 Note: This tool only supports classic POSIX signals, not real-time signals
 (e.g. SIGRTMIN and above).
 ";
@@ -37,6 +39,10 @@ pub struct Cli {
     /// Show processes that have pending signals
     #[arg(short, long, default_value_t = true)]
     pub pending: bool,
+
+    /// Show all signal types (equivalent to -cbpi)
+    #[arg(short, long, default_value_t = false)]
+    pub all: bool,
 
     /// Replace the binary name with the full value of
     /// /proc/$PID/cmdline surrounded by quotes
@@ -74,6 +80,7 @@ impl Cli {
         // Check if any args were provided at all
         if !args.is_empty() {
             // Flags we need to detect
+            let mut has_all = false;
             let mut has_ignored = false;
             let mut has_caught = false;
             let mut has_blocked = false;
@@ -81,6 +88,10 @@ impl Cli {
 
             // Examine each argument
             for arg in args {
+                if arg == "--all" || short_arg_present(arg, 'a') {
+                    has_all = true;
+                    break;
+                }
                 if arg == "--ignored" || short_arg_present(arg, 'i') {
                     has_ignored = true;
                 }
@@ -95,8 +106,12 @@ impl Cli {
                 }
             }
 
-            // If any flag was detected, reset the defaults for unspecified flags
-            if has_ignored || has_caught || has_blocked || has_pending {
+            if has_all {
+                cli.ignored = true;
+                cli.caught = true;
+                cli.blocked = true;
+                cli.pending = true;
+            } else if has_ignored || has_caught || has_blocked || has_pending {
                 cli.ignored = has_ignored;
                 cli.caught = has_caught;
                 cli.blocked = has_blocked;
