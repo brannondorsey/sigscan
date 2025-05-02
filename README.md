@@ -70,11 +70,11 @@ sigscan
 # Show only processes that are ignoring signals (omitted by default)
 sigscan --ignored
 
-# Show caught, blocked, pending, and ignored signals
+# Show caught, blocked, pending, **and** ignored signals (equivalent to `sigscan -cbpi`)
 sigscan --caught --blocked --pending --ignored
 
-# The quivalent command using short argument notation
-sigscan -cbpi
+# Or use --all/-a instead of specifying all four signal types
+sigscan --all
 ```
 
 ### Recipes
