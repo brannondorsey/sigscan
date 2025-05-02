@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1](https://github.com/brannondorsey/sigscan/compare/v0.2.0...v0.2.1) - 2025-05-02
+
+### Other
+
+- *(deps)* Bump nix ([#12](https://github.com/brannondorsey/sigscan/pull/12))
+
 ## [0.1.1](https://github.com/brannondorsey/sigscan/compare/v0.1.0...v0.1.1) - 2025-05-02
 
 ### Added
