@@ -2,7 +2,7 @@
 
 List POSIX signal information for all processes.
 
-![sigscan screenshot](.images/sigscan-screenshot.png)
+![sigscan screenshot](https://raw.githubusercontent.com/brannondorsey/sigscan/main/.images/sigscan-screenshot.png)
 
 ## Features
 
