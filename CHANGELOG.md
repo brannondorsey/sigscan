@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1](https://github.com/brannondorsey/sigscan/compare/v0.1.0...v0.1.1) - 2025-05-02
+
+### Added
+
+- Add --all/-a flag ([#8](https://github.com/brannondorsey/sigscan/pull/8))
+
+### Fixed
+
+- Fix panics when printing to broken pipes ([#9](https://github.com/brannondorsey/sigscan/pull/9))
+- *(docs)* Fix release binary links in README ([#5](https://github.com/brannondorsey/sigscan/pull/5))
+
+### Other
+
+- *(docs)* Add more examples ([#10](https://github.com/brannondorsey/sigscan/pull/10))
+- *(docs)* Improved install instructions in README ([#7](https://github.com/brannondorsey/sigscan/pull/7))
+
 ## [0.1.0](https://github.com/brannondorsey/sigscan/releases/tag/v0.1.0) - 2025-05-01
 
 ### Added
