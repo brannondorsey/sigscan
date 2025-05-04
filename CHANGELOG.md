@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2](https://github.com/brannondorsey/sigscan/compare/v0.2.1...v0.2.2) - 2025-05-04
+
+### Other
+
+- cargo update ([#16](https://github.com/brannondorsey/sigscan/pull/16))
+- *(docs)* Update crate description ([#17](https://github.com/brannondorsey/sigscan/pull/17))
+- *(docs)* Update CHANGELOG ([#14](https://github.com/brannondorsey/sigscan/pull/14))
+
 ## [0.2.1](https://github.com/brannondorsey/sigscan/compare/v0.2.0...v0.2.1) - 2025-05-02
 
 ### Fixed
