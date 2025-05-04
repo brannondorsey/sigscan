@@ -1,7 +1,7 @@
 [package]
 name = "signal-scan"
 version = "0.2.1"
-description = "List POSIX signal information about all processes on a host using Linux procfs"
+description = "List POSIX signal information for all processes on Linux"
 edition = "2024"
 authors = ["Brannon Dorsey <brannon@brannondorsey.com>"]
 license = "MIT OR Apache-2.0"
