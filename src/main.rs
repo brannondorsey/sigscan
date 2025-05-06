@@ -129,10 +129,7 @@ fn sigset_to_strings(sigset: u64) -> Vec<String> {
     // fire the handlers in when multiple signals transition out of the pending
     // state.
     sigset.sort_by_key(|(s, _)| *s);
-    sigset
-        .iter()
-        .map(|(_, s)| s.if_supports_color(OwoStdout, |t| t.white()).to_string())
-        .collect()
+    sigset.into_iter().map(|(_, s)| s).collect()
 }
 
 // Warning: This only works on platforms where sigset_t starts with a u64[16]
