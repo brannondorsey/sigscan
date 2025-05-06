@@ -73,8 +73,11 @@ sigscan --ignored
 # Show caught, blocked, pending, **and** ignored signals (equivalent to `sigscan -cbpi`)
 sigscan --caught --blocked --pending --ignored
 
-# Or use --all/-a instead of specifying all four signal types
+# Or use --all/-a instead of specifying all four signal types, plus processes with empty signal masks
 sigscan --all
+
+# Show only processes with totally empty signal masks (e.g. no signals are caught, blocked, pending, or ignored)
+sigscan --empty
 ```
 
 ### Recipes
