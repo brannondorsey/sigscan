@@ -131,15 +131,7 @@ fn sigset_to_strings(sigset: u64) -> Vec<String> {
     sigset.sort_by_key(|(s, _)| *s);
     sigset
         .iter()
-        .map(|(_, s)| s)
-        .enumerate()
-        .map(|(i, s)| {
-            if i % 2 == 0 {
-                s.if_supports_color(OwoStdout, |t| t.white()).to_string()
-            } else {
-                s.if_supports_color(OwoStdout, |t| t.white()).to_string()
-            }
-        })
+        .map(|(_, s)| s.if_supports_color(OwoStdout, |t| t.white()).to_string())
         .collect()
 }
 
