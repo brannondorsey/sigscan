@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.3](https://github.com/brannondorsey/sigscan/compare/v0.2.2...v0.2.3) - 2025-05-07
+
+### Added
+
+- Add --empty flag ([#18](https://github.com/brannondorsey/sigscan/pull/18))
+
+### Fixed
+
+- Trim trailing whitespace in output ([#19](https://github.com/brannondorsey/sigscan/pull/19))
+
+### Other
+
+- Remove more unnecessary logic in `sigset_to_strings()` ([#22](https://github.com/brannondorsey/sigscan/pull/22))
+- Remove unnecessary logic in `sigset_to_strings()` ([#21](https://github.com/brannondorsey/sigscan/pull/21))
+
 ## [0.2.2](https://github.com/brannondorsey/sigscan/compare/v0.2.1...v0.2.2) - 2025-05-04
 
 ### Other

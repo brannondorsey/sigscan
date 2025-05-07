@@ -1,6 +1,6 @@
 [package]
 name = "signal-scan"
-version = "0.2.2"
+version = "0.2.3"
 description = "List POSIX signal information for all processes on Linux"
 edition = "2024"
 authors = ["Brannon Dorsey <brannon@brannondorsey.com>"]
