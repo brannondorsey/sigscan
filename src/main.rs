@@ -68,9 +68,11 @@ fn main() {
         let blocked = format_signal_str!(cli.blocked, blocked, "blocked", |t| t.bright_red());
         let pending = format_signal_str!(cli.pending, pending, "pending", |t| t.bright_green());
 
-        let display_none =
+        let is_empty =
             ignored.is_empty() && caught.is_empty() && blocked.is_empty() && pending.is_empty();
-        if !display_none {
+
+        let display = !is_empty || cli.empty;
+        if display {
             let output = format!("{pid} {name} {ignored}{caught}{blocked}{pending}");
             let output = output.trim_end();
             let _ = writeln!(io::stdout(), "{output}");
@@ -94,6 +96,11 @@ fn get_filter_status(cli: &Cli) -> impl FnMut(&Status) -> bool {
             || (cli.blocked && status.sigblk != 0)
             || (cli.caught && status.sigcgt != 0)
             || (cli.ignored && status.sigign != 0)
+            || (cli.empty
+                && status.sigign == 0
+                && status.sigcgt == 0
+                && status.sigblk == 0
+                && status.shdpnd == 0)
     }
 }
 
